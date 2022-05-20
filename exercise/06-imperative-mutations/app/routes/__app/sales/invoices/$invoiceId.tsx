@@ -217,7 +217,9 @@ function Deposits() {
   useEffect(() => {
     if (!formRef.current) return;
     if (newDepositFetcher.type !== "done") return;
+
     const formEl = formRef.current as DepositFormElement;
+
     if (errors?.amount) {
       formEl.elements.amount?.focus();
     } else if (errors?.depositDate) {

@@ -11,6 +11,9 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   await requireUser(request);
+  await new Promise((resolve) =>
+    setTimeout(resolve, Math.random() * 3000 + 1500)
+  );
   const { customerId } = params;
   if (typeof customerId !== "string") {
     throw new Error("This should be unpossible.");

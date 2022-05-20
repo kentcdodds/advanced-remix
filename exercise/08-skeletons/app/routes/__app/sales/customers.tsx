@@ -1,12 +1,6 @@
-import {
-  NavLink,
-  Outlet,
-  useLoaderData,
-  useTransition,
-} from "@remix-run/react";
+import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useSpinDelay } from "spin-delay";
 import { FilePlusIcon } from "~/components";
 import { requireUser } from "~/session.server";
 import { getCustomerListItems } from "~/models/customer.server";
@@ -24,20 +18,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Customers() {
   const { customers } = useLoaderData() as LoaderData;
-  const transition = useTransition();
-  const isLoadingCustomer =
-    transition.location?.pathname.includes("/customers/") &&
-    !transition.location?.pathname.endsWith("/new");
 
-  let loadingCustomer: LoaderData["customers"][number] | undefined;
-  if (isLoadingCustomer) {
-    const customerId = transition.location?.pathname.split("/").slice(-1)[0];
-    loadingCustomer = customers.find((customer) => customer.id === customerId);
-  }
-  const showSkeleton = useSpinDelay(Boolean(loadingCustomer), {
-    delay: 200,
-    minDuration: 300,
-  });
+  // 💿 get the transition from useTransition
+  // 💿 determine whether we're transitioning to a customer page
+  // 💰 use transition.location?.pathname to get the customer id
+
+  // 💯 to avoid a flash of loading state, you can use useSpinDelay
+  // from spin-delay to determine whether to show the skeleton
 
   return (
     <div className="flex overflow-hidden rounded-lg border border-gray-100">
@@ -77,15 +64,16 @@ export default function Customers() {
           ))}
         </div>
       </div>
-      <div className="w-1/2">
-        {loadingCustomer && showSkeleton ? (
-          <CustomerSkeleton
-            name={loadingCustomer.name}
-            email={loadingCustomer.email}
-          />
-        ) : (
-          <Outlet />
-        )}
+      <div className="flex w-1/2 flex-col justify-between">
+        {/*
+          💿 if we're loading a customer, then render the
+          <CustomerSkeleton /> (defined below) instead of
+          the <Outlet />
+        */}
+        <Outlet />
+        <small className="p-2 text-center">
+          Note: this is arbitrarily slow to demonstrate pending UI.
+        </small>
       </div>
     </div>
   );
@@ -114,3 +102,8 @@ function CustomerSkeleton({ name, email }: { name: string; email: string }) {
     </div>
   );
 }
+
+/*
+eslint
+  @typescript-eslint/no-unused-vars: "off",
+*/

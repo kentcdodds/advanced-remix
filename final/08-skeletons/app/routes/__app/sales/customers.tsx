@@ -77,7 +77,7 @@ export default function Customers() {
           ))}
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="flex w-1/2 flex-col justify-between">
         {loadingCustomer && showSkeleton ? (
           <CustomerSkeleton
             name={loadingCustomer.name}
@@ -86,6 +86,9 @@ export default function Customers() {
         ) : (
           <Outlet />
         )}
+        <small className="p-2 text-center">
+          Note: this is arbitrarily slow to demonstrate pending UI.
+        </small>
       </div>
     </div>
   );

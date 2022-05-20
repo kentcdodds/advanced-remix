@@ -66,32 +66,3 @@ export default function Customers() {
     </div>
   );
 }
-
-function CustomerSkeleton({ name, email }: { name: string; email: string }) {
-  return (
-    <div className="relative p-10">
-      <div className="text-[length:14px] font-bold leading-6">{email}</div>
-      <div className="text-[length:32px] font-bold leading-[40px]">{name}</div>
-      <div className="h-4" />
-      <div className="text-m-h3 font-bold leading-8">Invoices</div>
-      <div className="h-4" />
-      <div>
-        <div className="flex h-[56px] items-center border-t border-gray-100">
-          <div className="h-[14px] w-full animate-pulse rounded bg-gray-300">
-            &nbsp;
-          </div>
-        </div>
-        <div className="flex h-[56px] items-center border-t border-gray-100">
-          <div className="h-[14px] w-full animate-pulse rounded bg-gray-300">
-            &nbsp;
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/*
-eslint
-  @typescript-eslint/no-unused-vars: "off",
-*/
