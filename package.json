@@ -1,0 +1,31 @@
+{
+  "name": "remix-fundamentals",
+  "version": "1.0.0",
+  "description": "Learn the fundamentals of Remix with this workshop",
+  "main": "index.js",
+  "scripts": {
+    "typecheck": "tsc -b .",
+    "build": "node ./scripts/build",
+    "dev": "node dev",
+    "diff": "node diff",
+    "postinstall": "node ./scripts/install",
+    "setup": "npm install && node ./scripts/setup && npm run typecheck && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kentcdodds/remix-fundamentals.git"
+  },
+  "keywords": [
+    "remix",
+    "workshop"
+  ],
+  "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/kentcdodds/remix-fundamentals/issues"
+  },
+  "homepage": "https://github.com/kentcdodds/remix-fundamentals#readme",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
