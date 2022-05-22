@@ -24,6 +24,9 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
+      - name: 🏭 Setup
+        run: node ./scripts/setup
+
       - name: ʦ TypeScript
         run: npm run typecheck
 
