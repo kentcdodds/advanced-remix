@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "setup": "prisma migrate dev && prisma db seed",
+    "setup": "prisma migrate reset --force",
     "start": "remix-serve build",
     "typecheck": "tsc -b",
     "validate": "run-p \"test -- --run\" lint typecheck"
