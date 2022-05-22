@@ -2,6 +2,7 @@ import {
   NavLink,
   Outlet,
   useLoaderData,
+  useParams,
   useTransition,
 } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/node";
@@ -23,15 +24,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Customers() {
+  const params = useParams();
   const { customers } = useLoaderData() as LoaderData;
   const transition = useTransition();
-  const isLoadingCustomer =
-    transition.location?.pathname.includes("/customers/") &&
-    !transition.location?.pathname.endsWith("/new");
-
+  const isLoadingCustomer = transition.state !== "idle";
   let loadingCustomer: LoaderData["customers"][number] | undefined;
   if (isLoadingCustomer) {
-    const customerId = transition.location?.pathname.split("/").slice(-1)[0];
+    const customerId = params.customerId;
     loadingCustomer = customers.find((customer) => customer.id === customerId);
   }
   const showSkeleton = useSpinDelay(Boolean(loadingCustomer), {
