@@ -17,8 +17,7 @@ function runInDirs(script, dirs = []) {
 
   for (const dir of dirs) {
     console.log(`🏎  ${script} in ${dir}`);
-    const child = cp.execSync(script, { cwd: dir });
-    console.log(child.toString());
+    cp.execSync(script, { cwd: dir, stdio: "inherit" });
   }
 }
 
