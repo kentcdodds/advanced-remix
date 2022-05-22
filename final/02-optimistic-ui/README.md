@@ -2,7 +2,7 @@
 
 ## 📝 Notes
 
-## Background
+## 🤓 Background
 
 Continuing with the twitter example in the last exercise, when you click "favorite" on a tweet, it shows the filled-in red heart instantly. Even if you're on a slow connection. How do they manage to do that? Well, it's a trick! The tweet hasn't _actually_ been favorited yet! They're just being... optimistic! Turns out 99% of the time when you favorite a tweet, it's successful. So they just decided that they'll show you the finished state before it's actually finished.
 
@@ -12,7 +12,7 @@ Luckily for us, in Remix, you don't have to think about rolling back. It just ma
 
 📜 [Remix docs on Optimistic UI](https://remix.run/docs/en/v1/guides/optimistic-ui)
 
-## Exercise
+## 💪 Exercise
 
 Let's make the deposit form optimistically list the new deposit the user just submitted. After all, all the data we need to display the new deposit is right there. The user just gave it to us!
 
@@ -21,6 +21,13 @@ Let's make the deposit form optimistically list the new deposit the user just su
 
 While we're at it, let's add a `useEffect` to reset the form automatically for the user when the submission is complete (`fetcher.type === 'done'`).
 
-## Files
+## 🗃 Files
 
 - `app/routes/__app/sales/invoices/$invoiceId.tsx`
+
+## 🦉 Elaboration and Feedback
+
+After the instruction, if you want to remember what you've just learned, then
+fill out the elaboration and feedback form:
+
+(https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=10%3A%2002.%20Optimistic%20UI&em=)

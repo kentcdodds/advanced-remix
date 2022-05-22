@@ -55,7 +55,7 @@ npm run setup
 If you experience errors here, please open [an issue][issue] with as many
 details as you can offer.
 
-### Exercises
+### 💪 Exercises
 
 You'll find all the exercises in the `exercises` directory. The finished version
 of each exercise is in the `final` directory. Each directory is a completely

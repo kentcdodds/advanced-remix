@@ -2,7 +2,7 @@
 
 ## 📝 Notes
 
-## Background
+## 🤓 Background
 
 Before JavaScript came around, any time you submitted a form, the browser would send a request the server and the server would respond with a new page. This effectively revalidated all the data on the page (because the whole page was new). When JavaScript showed up, we decided we should use the response that came back and stitch it into the existing page. Unfortunately, this led to a lot of data inconsistencies and missed data and that's when "Application state management" became such a challenge in the world of development of the world wide web. And it's the primary cause for the frustration that you hear from OG web developers who lament how hard it is to build for the web these days.
 
@@ -16,10 +16,17 @@ You can think of it like the second argument of [`React.memo`](https://reactjs.o
 
 📜 [`unstable_shouldReload` docs](https://remix.run/docs/en/v1/api/conventions#unstable_shouldreload)
 
-## Exercise
+## 💪 Exercise
 
 We don't need to reload the user whenever there's a mutation. The user's information shouldn't change between mutations. It only changes when they login or logout. So add `unstable_shouldReload` to the root route and only reload that route's loader when the user logs in or logs out.
 
-## Files
+## 🗃 Files
 
 - `app/root.tsx`
+
+## 🦉 Elaboration and Feedback
+
+After the instruction, if you want to remember what you've just learned, then
+fill out the elaboration and feedback form:
+
+(https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=12%3A%2004.%20Revalidation%20Optimization&em=)
