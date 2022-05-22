@@ -53,7 +53,8 @@ npm run setup
 ```
 
 This will take some time. This repository has many projects in it that each need
-to have dependencies installed, so please be patient.
+to have their own database setup. We also run type checking and the build to
+make sure things are ready to rock and roll 🤘
 
 If you experience errors here, please open [an issue][issue] with as many
 details as you can offer.
