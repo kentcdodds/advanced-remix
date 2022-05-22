@@ -52,6 +52,9 @@ cd advanced-remix
 npm run setup
 ```
 
+This will take some time. This repository has many projects in it that each need
+to have dependencies installed, so please be patient.
+
 If you experience errors here, please open [an issue][issue] with as many
 details as you can offer.
 
