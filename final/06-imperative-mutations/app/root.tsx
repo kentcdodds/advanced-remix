@@ -128,5 +128,7 @@ function LogoutTimer() {
   );
 }
 
-export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
-  submission?.action === "/logout" || submission?.action === "/login";
+// There's currently a bug in this API when used in combination with
+// fetcher.submit, so we'll disable this optimization for this exercise
+// export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
+//   submission?.action === "/logout" || submission?.action === "/login";
