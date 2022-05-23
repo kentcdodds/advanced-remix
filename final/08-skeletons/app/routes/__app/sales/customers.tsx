@@ -24,15 +24,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Customers() {
-  const params = useParams();
   const { customers } = useLoaderData() as LoaderData;
   const transition = useTransition();
-  const isLoadingCustomer = transition.state !== "idle";
-  let loadingCustomer: LoaderData["customers"][number] | undefined;
-  if (isLoadingCustomer) {
-    const customerId = params.customerId;
-    loadingCustomer = customers.find((customer) => customer.id === customerId);
-  }
+  const { customerId } = useParams();
+  const loadingCustomer =
+    transition.state === "idle"
+      ? null
+      : customers.find((customer) => customer.id === customerId);
   const showSkeleton = useSpinDelay(Boolean(loadingCustomer), {
     delay: 200,
     minDuration: 300,
