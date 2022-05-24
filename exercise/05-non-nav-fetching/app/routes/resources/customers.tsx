@@ -1,10 +1,10 @@
-import type { ActionFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import clsx from "clsx";
 import { useCombobox } from "downshift";
 import { useState } from "react";
 import { LabelText } from "~/components";
 
-export const action: ActionFunction = async () => {
+export const loader: LoaderFunction = async () => {
   // 💿 verify the user is logged in with requireUser
 
   // 💿 perform the customer search with searchCustomers and the query from the request
@@ -38,8 +38,8 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
     onInputValueChange: (changes) => {
       // 💿 use your fetcher to submit the query and get back the customers
       // 💰 changes.inputValue is the query
-      // 💰 what method do we need to set this to so it ends up in the action?
-      // 💰 what should the action be set to so the request is always sent to
+      // 💰 what method do we need to set this to so it ends up in the loader?
+      // 💰 what should the action URL be set to so the request is always sent to
       // this route module regardless of where this component is used?
     },
   });

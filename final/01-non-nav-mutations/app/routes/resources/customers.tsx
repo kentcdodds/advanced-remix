@@ -1,4 +1,4 @@
-import type { ActionFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import clsx from "clsx";
@@ -13,22 +13,14 @@ type CustomerSearchResult = {
   customers: Awaited<ReturnType<typeof searchCustomers>>;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   await requireUser(request);
-  const formData = await request.formData();
-  const intent = formData.get("intent");
-  switch (intent) {
-    case "customer-search": {
-      const query = formData.get("query");
-      invariant(typeof query === "string", "query is required");
-      return json<CustomerSearchResult>({
-        customers: await searchCustomers(query),
-      });
-    }
-    default: {
-      return json({ error: `Unsupported intent: ${intent}` });
-    }
-  }
+  const url = new URL(request.url);
+  const query = url.searchParams.get("query");
+  invariant(typeof query === "string", "query is required");
+  return json<CustomerSearchResult>({
+    customers: await searchCustomers(query),
+  });
 };
 
 type Customer = CustomerSearchResult["customers"][number];
@@ -53,11 +45,8 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
       if (!changes.inputValue) return;
 
       customerFetcher.submit(
-        {
-          intent: "customer-search",
-          query: changes.inputValue,
-        },
-        { method: "post", action: "/resources/customers" }
+        { query: changes.inputValue },
+        { method: "get", action: "/resources/customers" }
       );
     },
   });
