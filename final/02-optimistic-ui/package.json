@@ -36,8 +36,8 @@
     "clsx": "^1.1.1",
     "downshift": "^6.1.7",
     "isbot": "^3.5.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "18.2.0-next-82c64e1a4-20220520",
+    "react-dom": "18.2.0-next-82c64e1a4-20220520",
     "spin-delay": "^1.1.0",
     "tiny-invariant": "^1.2.0"
   },
