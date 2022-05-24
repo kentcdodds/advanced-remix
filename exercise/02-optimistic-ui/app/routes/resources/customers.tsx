@@ -42,8 +42,6 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
     Customer | null | undefined
   >(null);
 
-  // sorry Ryan. I was going to use @reach/combobox, but ran into this issue:
-  // https://github.com/reach/reach-ui/pull/628
   const cb = useCombobox<Customer>({
     id,
     onSelectedItemChange: ({ selectedItem }) => {
