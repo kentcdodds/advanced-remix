@@ -20,8 +20,7 @@ export default function Customers() {
   const { customers } = useLoaderData() as LoaderData;
 
   // 💿 get the transition from useTransition
-  // 💿 determine whether we're transitioning to a customer page
-  // 💰 use transition.location?.pathname to get the customer id
+  // 💰 use transition.location?.state to get the customer we're transitioning to
 
   // 💯 to avoid a flash of loading state, you can use useSpinDelay
   // from spin-delay to determine whether to show the skeleton
@@ -47,6 +46,8 @@ export default function Customers() {
             <NavLink
               key={customer.id}
               to={customer.id}
+              // 💿 add state to set the customer for the transition
+              // 💰 state={{ customer }}
               prefetch="intent"
               className={({ isActive }) =>
                 "block border-b border-gray-50 py-3 px-4 hover:bg-gray-50" +

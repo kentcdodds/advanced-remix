@@ -2,7 +2,6 @@ import {
   NavLink,
   Outlet,
   useLoaderData,
-  useParams,
   useTransition,
 } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/node";
@@ -26,11 +25,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Customers() {
   const { customers } = useLoaderData() as LoaderData;
   const transition = useTransition();
-  const { customerId } = useParams();
-  const loadingCustomer =
-    transition.state === "idle"
-      ? null
-      : customers.find((customer) => customer.id === customerId);
+
+  let loadingCustomer: LoaderData["customers"][number] | undefined;
+
+  if (transition.location?.state) {
+    loadingCustomer = (transition.location?.state as any)?.customer;
+  }
+
   const showSkeleton = useSpinDelay(Boolean(loadingCustomer), {
     delay: 200,
     minDuration: 300,
@@ -57,6 +58,7 @@ export default function Customers() {
             <NavLink
               key={customer.id}
               to={customer.id}
+              state={{ customer }}
               prefetch="intent"
               className={({ isActive }) =>
                 "block border-b border-gray-50 py-3 px-4 hover:bg-gray-50" +
