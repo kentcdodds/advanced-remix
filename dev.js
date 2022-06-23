@@ -27,7 +27,7 @@ async function go() {
       final: 5000,
     }[category] + Number(number);
 
-  cp.spawn(`npm run dev`, {
+  cp.spawn(`npm run dev -s`, {
     cwd: appDir,
     shell: true,
     stdio: "inherit",
