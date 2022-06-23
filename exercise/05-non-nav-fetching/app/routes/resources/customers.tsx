@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import clsx from "clsx";
 import { useCombobox } from "downshift";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { LabelText } from "~/components";
 
 export const loader: LoaderFunction = async () => {
@@ -18,9 +18,7 @@ type Customer = { id: string; name: string; email: string };
 
 export function CustomerCombobox({ error }: { error?: string | null }) {
   // 💿 use the useFetcher hook to fetch the customers
-
-  // 💯 the combobox needs to have a unique but consistent ID, so swap this for useId from React
-  const id = "customer-combobox";
+  const id = useId();
 
   // 💿 set this to the customer data you get from the fetcher (if it exists)
   const customers: Array<Customer> = [];
