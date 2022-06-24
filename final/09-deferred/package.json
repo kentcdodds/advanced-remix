@@ -1,0 +1,72 @@
+{
+  "name": "advanced-remix-final-09-0.0.0-experimental-708e229e",
+  "private": true,
+  "description": "",
+  "license": "",
+  "sideEffects": false,
+  "scripts": {
+    "build": "run-s build:*",
+    "build:css": "npm run generate:css -- --minify",
+    "build:remix": "remix build",
+    "dev": "run-p dev:*",
+    "dev:css": "npm run generate:css -- --watch",
+    "dev:remix": "cross-env NODE_ENV=development remix dev",
+    "format": "prettier --write .",
+    "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
+    "lint": "eslint --cache --cache-location ./.cache/eslint .",
+    "setup": "prisma migrate reset --force",
+    "start": "remix-serve build",
+    "typecheck": "tsc -b",
+    "validate": "run-p \"test -- --run\" lint typecheck"
+  },
+  "prettier": {},
+  "eslintIgnore": [
+    "/node_modules",
+    "/build",
+    "/public/build"
+  ],
+  "dependencies": {
+    "@prisma/client": "^3.15.2",
+    "@reach/dialog": "^0.17.0",
+    "@remix-run/node": "0.0.0-experimental-708e229e",
+    "@remix-run/react": "0.0.0-experimental-708e229e",
+    "@remix-run/serve": "0.0.0-experimental-708e229e",
+    "@remix-run/server-runtime": "0.0.0-experimental-708e229e",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^1.1.1",
+    "downshift": "^6.1.7",
+    "isbot": "^3.5.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "spin-delay": "^1.2.0",
+    "tiny-invariant": "^1.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "0.0.0-experimental-708e229e",
+    "@remix-run/eslint-config": "0.0.0-experimental-708e229e",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/eslint": "^8.4.3",
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "autoprefixer": "^10.4.7",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.14",
+    "prettier": "2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.11",
+    "prisma": "^3.15.2",
+    "tailwindcss": "^3.1.3",
+    "ts-node": "^10.8.1",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "^4.7.4"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "prisma": {
+    "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
+  }
+}

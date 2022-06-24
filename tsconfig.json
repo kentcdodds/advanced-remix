@@ -24,6 +24,8 @@
     { "path": "final/07-pending-ui" },
 
     { "path": "exercise/08-skeletons" },
-    { "path": "final/08-skeletons" }
+    { "path": "final/08-skeletons" },
+
+    { "path": "final/09-deferred" }
   ]
 }
