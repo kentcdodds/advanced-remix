@@ -48,4 +48,4 @@ We've already got the modal and logic around the timeout implemented for you. Yo
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-(https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=14%3A%2006.%20Imperative%20Mutations&em=)
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=15%3A%2006.%20Imperative%20Mutations&em=

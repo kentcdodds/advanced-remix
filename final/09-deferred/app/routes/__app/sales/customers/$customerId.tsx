@@ -35,7 +35,6 @@ async function getCustomerInvoiceDetails(customerId: string) {
   await new Promise((resolve) =>
     setTimeout(resolve, Math.random() * 3000 + 1500)
   );
-  throw new Error("no invoice details");
   return customerDetails?.invoiceDetails ?? [];
 }
 
@@ -119,6 +118,7 @@ export default function CustomerRoute() {
     </div>
   );
 }
+
 export function CatchBoundary() {
   const caught = useCatch();
   const params = useParams();

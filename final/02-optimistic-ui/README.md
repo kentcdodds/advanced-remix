@@ -30,4 +30,4 @@ While we're at it, let's add a `useEffect` to reset the form automatically for t
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-(https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=10%3A%2002.%20Optimistic%20UI&em=)
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=11%3A%2002.%20Optimistic%20UI&em=

@@ -20,7 +20,7 @@ glob
     const title = titleMatch.groups.title.trim();
     const workshop = encodeURIComponent(projectTitle);
     const exercise = encodeURIComponent(`${index + 1}: ${title}`);
-    const link = `(https://ws.kcd.im/?ws=${workshop}&e=${exercise}&em=)`;
+    const link = `https://ws.kcd.im/?ws=${workshop}&e=${exercise}&em=`;
     if (contents.includes(link)) {
       return;
     }

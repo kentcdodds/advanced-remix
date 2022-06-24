@@ -34,4 +34,4 @@ Someone came through and added display error messages for us (how nice of them).
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-(https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=11%3A%2003.%20Focus%20Management&em=)
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=12%3A%2003.%20Focus%20Management&em=

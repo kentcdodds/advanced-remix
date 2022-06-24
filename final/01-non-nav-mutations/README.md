@@ -27,4 +27,4 @@ Interesting, the UI already technically works (hooray progressive enhancement!).
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-(https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=9%3A%2001.%20Non-nav%20mutations%20with%20%60useFetcher()%60&em=)
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=10%3A%2001.%20Non-nav%20mutations%20with%20%60useFetcher()%60&em=

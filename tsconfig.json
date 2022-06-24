@@ -26,6 +26,7 @@
     { "path": "exercise/08-skeletons" },
     { "path": "final/08-skeletons" },
 
+    { "path": "exercise/09-deferred" },
     { "path": "final/09-deferred" }
   ]
 }
