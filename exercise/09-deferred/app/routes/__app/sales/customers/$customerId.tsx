@@ -37,9 +37,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (typeof customerId !== "string") {
     throw new Error("This should be unpossible.");
   }
-  // 💿 The invoiceDetails are slow, so let's defer that.
+  // The invoiceDetails are slow, so let's defer that.
   // 💿 Change this from a Promise.all to two separate calls
-  // 💿 Await the customer info, and not the invoice details.
+  // 💿 Await the customer info, and not the invoice details (so the value of invoiceDetails will be a promise).
   const [customerInfo, invoiceDetails] = await Promise.all([
     getCustomerInfo(customerId),
     getCustomerInvoiceDetails(customerId),
