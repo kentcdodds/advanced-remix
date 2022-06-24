@@ -79,6 +79,10 @@ function LogoutTimer() {
 
   const logout = useCallback(() => {
     // 💿 log the user out by posting the /logout
+    // 💿 make sure you provide the `redirectTo` value as part of the body of
+    // the request as there's currently some odd behavior if you don't. If
+    // you're reading this it's because I still haven't figured out what's
+    // going on and you can give me a hard time abou tit...
   }, []);
 
   const cleanupTimers = useCallback(() => {
