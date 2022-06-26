@@ -94,7 +94,7 @@ each exercise folder in an individual editor window (this will make things like
 For each exercise, follow the instructions in the `README.md` file of the
 exercise directory to learn what the objectives are.
 
-You can us the `diff.js` script to be shown the differences between what's in
+You can use the `diff.js` script to be shown the differences between what's in
 any of the apps. For example:
 
 ```sh
