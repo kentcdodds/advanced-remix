@@ -1,4 +1,3 @@
-const fs = require("fs/promises");
 const cp = require("child_process");
 const path = require("path");
 const {
@@ -10,16 +9,17 @@ const {
 
 let { 2: appDir } = process.argv;
 
-if (/\d+/.test(appDir)) {
+if (/^\d+$/.test(appDir)) {
   appDir = `./exercise/${appDir.padStart(2, "0")}`;
 }
 
 async function go() {
   appDir = resolvePath(appDir);
-  // warn if the directory deosn't exist
-  const stat = await fs.stat(appDir).catch(() => false);
+  // warn if the directory doesn't exist
   if (!(await dirExists(appDir))) {
-    console.log(`${appDir} does not exist`);
+    console.error(
+      `${process.argv[2]} was resolved to ${appDir} which does not exist`
+    );
     return;
   }
 

@@ -10,11 +10,11 @@ const {
 
 let { 2: first, 3: second } = process.argv;
 
-if (/\d+/.test(first)) {
+if (/^\d+$/.test(first)) {
   first = `./exercise/${first.padStart(2, "0")}`;
 }
 
-if (/\d+/.test(second)) {
+if (/^\d+$/.test(second)) {
   second = `./final/${second.padStart(2, "0")}`;
 }
 
@@ -25,12 +25,12 @@ if (!second) {
 async function go() {
   first = resolvePath(first);
   if (!(await dirExists(first))) {
-    console.log(`${process.argve[2]} (${first}) does not exist`);
+    console.error(`${process.argv[2]} (${first}) does not exist`);
     return;
   }
   second = resolvePath(second);
   if (!(await dirExists(second))) {
-    console.log(`${process.argv[3]} (${second}) does not exist`);
+    console.error(`${process.argv[3]} (${second}) does not exist`);
     return;
   }
 
