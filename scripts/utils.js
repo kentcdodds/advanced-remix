@@ -1,5 +1,14 @@
 const fs = require("fs");
+const path = require("path");
 const cp = require("child_process");
+
+const dirExists = async (dir) =>
+  Boolean(await fs.promises.stat(dir).catch(() => false));
+
+const resolvePath = (p) =>
+  [...getExerciseDirs(), ...getFinalDirs()].find((dir) => {
+    return path.resolve(dir).startsWith(path.resolve(p));
+  });
 
 function getExerciseDirs() {
   return fs.readdirSync("./exercise").map((dir) => `./exercise/${dir}`);
@@ -25,4 +34,6 @@ module.exports = {
   getExerciseDirs,
   getFinalDirs,
   runInDirs,
+  resolvePath,
+  dirExists,
 };

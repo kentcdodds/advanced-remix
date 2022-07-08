@@ -1,20 +1,24 @@
 const fs = require("fs/promises");
 const cp = require("child_process");
 const path = require("path");
-const { getExerciseDirs, getFinalDirs } = require("./scripts/utils");
+const {
+  getExerciseDirs,
+  getFinalDirs,
+  resolvePath,
+  dirExists,
+} = require("./scripts/utils");
 
 let { 2: appDir } = process.argv;
 
-const resolvePath = (p) =>
-  [...getExerciseDirs(), ...getFinalDirs()].find((dir) =>
-    path.resolve(dir).startsWith(path.resolve(p))
-  );
+if (/\d+/.test(appDir)) {
+  appDir = `./exercise/${appDir.padStart(2, "0")}`;
+}
 
 async function go() {
   appDir = resolvePath(appDir);
   // warn if the directory deosn't exist
   const stat = await fs.stat(appDir).catch(() => false);
-  if (!stat) {
+  if (!(await dirExists(appDir))) {
     console.log(`${appDir} does not exist`);
     return;
   }
