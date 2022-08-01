@@ -1,8 +1,4 @@
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
@@ -12,20 +8,13 @@ import { createUser, getUserByEmail, verifyLogin } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
 import { FullFakebooksLogo, inputClasses } from "~/components";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
   if (userId) return redirect("/");
   return json({});
-};
-
-interface ActionData {
-  errors?: {
-    email?: string;
-    password?: string;
-  };
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const intent = formData.get("intent");
   const email = formData.get("email");
@@ -34,21 +23,18 @@ export const action: ActionFunction = async ({ request }) => {
   const remember = formData.get("remember");
 
   if (!validateEmail(email)) {
-    return json<ActionData>(
-      { errors: { email: "Email is invalid" } },
-      { status: 400 }
-    );
+    return json({ errors: { email: "Email is invalid" } }, { status: 400 });
   }
 
   if (typeof password !== "string") {
-    return json<ActionData>(
+    return json(
       { errors: { password: "Password is required" } },
       { status: 400 }
     );
   }
 
   if (password.length < 8) {
-    return json<ActionData>(
+    return json(
       { errors: { password: "Password is too short" } },
       { status: 400 }
     );
@@ -60,7 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
     case "signup": {
       const existingUser = await getUserByEmail(email);
       if (existingUser) {
-        return json<ActionData>(
+        return json(
           { errors: { email: "A user already exists with this email" } },
           { status: 400 }
         );
@@ -79,7 +65,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   if (!user) {
-    return json<ActionData>(
+    return json(
       { errors: { email: "Invalid email or password" } },
       { status: 400 }
     );
@@ -91,7 +77,7 @@ export const action: ActionFunction = async ({ request }) => {
     remember: remember === "on" ? true : false,
     redirectTo,
   });
-};
+}
 
 export const meta: MetaFunction = () => {
   return {
@@ -102,17 +88,24 @@ export const meta: MetaFunction = () => {
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? "";
-  const actionData = useActionData() as ActionData;
+  const actionData = useActionData<typeof action>();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
+  let emailError: string | null = null;
+  let passwordError: string | null = null;
+  if (actionData && actionData.errors) {
+    const { errors } = actionData;
+    emailError = "email" in errors ? errors.email : null;
+    passwordError = "password" in errors ? errors.password : null;
+  }
 
   React.useEffect(() => {
-    if (actionData?.errors?.email) {
+    if (emailError) {
       emailRef.current?.focus();
-    } else if (actionData?.errors?.password) {
+    } else if (passwordError) {
       passwordRef.current?.focus();
     }
-  }, [actionData]);
+  }, [emailError, passwordError]);
 
   return (
     <div className="flex min-h-full flex-col justify-center">
@@ -137,13 +130,13 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 autoComplete="email"
-                aria-invalid={actionData?.errors?.email ? true : undefined}
+                aria-invalid={emailError ? true : undefined}
                 aria-describedby="email-error"
                 className={inputClasses}
               />
-              {actionData?.errors?.email && (
+              {emailError && (
                 <div className="pt-1 text-red-700" id="email-error">
-                  {actionData.errors.email}
+                  {emailError}
                 </div>
               )}
             </div>
@@ -163,13 +156,13 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 autoComplete="current-password"
-                aria-invalid={actionData?.errors?.password ? true : undefined}
+                aria-invalid={passwordError ? true : undefined}
                 aria-describedby="password-error"
                 className={inputClasses}
               />
-              {actionData?.errors?.password && (
+              {passwordError && (
                 <div className="pt-1 text-red-700" id="password-error">
-                  {actionData.errors.password}
+                  {passwordError}
                 </div>
               )}
             </div>

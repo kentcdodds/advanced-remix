@@ -1,26 +1,25 @@
-import type { LoaderFunction } from "@remix-run/node";
 import clsx from "clsx";
 import { useCombobox } from "downshift";
 import { useId, useState } from "react";
 import { LabelText } from "~/components";
 
-export const loader: LoaderFunction = async () => {
-  // 💿 verify the user is logged in with requireUser
+export async function loader() {
+  // 🐨 verify the user is logged in with requireUser
 
-  // 💿 perform the customer search with searchCustomers and the query from the request
+  // 🐨 perform the customer search with searchCustomers and the query from the request
   // and send back a json response
 
   // 💣 and... delete this
   throw new Error("Not implemented");
-};
+}
 
 type Customer = { id: string; name: string; email: string };
 
 export function CustomerCombobox({ error }: { error?: string | null }) {
-  // 💿 use the useFetcher hook to fetch the customers
+  // 🐨 use the useFetcher hook to fetch the customers
   const id = useId();
 
-  // 💿 set this to the customer data you get from the fetcher (if it exists)
+  // 🐨 set this to the customer data you get from the fetcher (if it exists)
   const customers: Array<Customer> = [];
   const [selectedCustomer, setSelectedCustomer] = useState<
     Customer | null | undefined
@@ -34,7 +33,7 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
     items: customers,
     itemToString: (item) => (item ? item.name : ""),
     onInputValueChange: (changes) => {
-      // 💿 use your fetcher to submit the query and get back the customers
+      // 🐨 use your fetcher to submit the query and get back the customers
       // 💰 changes.inputValue is the query
       // 💰 what method do we need to set this to so it ends up in the loader?
       // 💰 what should the action URL be set to so the request is always sent to

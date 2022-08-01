@@ -1,10 +1,7 @@
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { ShouldReloadFunction } from "@remix-run/react";
+// 🐨 you'll want this
+// import type { ShouldReloadFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -35,18 +32,14 @@ export const meta: MetaFunction = () => ({
   title: "Fakebooks Remix",
 });
 
-type LoaderData = {
-  user: Awaited<ReturnType<typeof getUser>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  return json<LoaderData>({
+export async function loader({ request }: LoaderArgs) {
+  return json({
     user: await getUser(request),
   });
-};
+}
 
 export default function App() {
-  const { user } = useLoaderData() as LoaderData;
+  const { user } = useLoaderData<typeof loader>();
   return (
     <html lang="en" className="h-full">
       <head>
@@ -67,7 +60,7 @@ export default function App() {
 function LogoutTimer() {
   const [status, setStatus] = useState<"idle" | "show-modal">("idle");
   const location = useLocation();
-  // 💿 add the useFetcher hook here so you can trigger a logout
+  // 🐨 add the useFetcher hook here so you can trigger a logout
 
   const logoutTime = 1000 * 60 * 60 * 24;
   const modalTime = logoutTime - 1000 * 60 * 2;
@@ -78,8 +71,8 @@ function LogoutTimer() {
   const logoutTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const logout = useCallback(() => {
-    // 💿 log the user out by posting the /logout
-    // 💿 make sure you provide the `redirectTo` value as part of the body of
+    // 🐨 log the user out by posting the /logout
+    // 🐨 make sure you provide the `redirectTo` value as part of the body of
     // the request as there's currently some odd behavior if you don't. If
     // you're reading this it's because I still haven't figured out what's
     // going on and you can give me a hard time about it...

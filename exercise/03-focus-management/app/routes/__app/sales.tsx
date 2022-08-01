@@ -1,29 +1,27 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { NavLink, Outlet, useLoaderData, useMatches } from "@remix-run/react";
 import { getFirstCustomer } from "~/models/customer.server";
 import { getFirstInvoice } from "~/models/invoice.server";
 import { requireUser } from "~/session.server";
 
-type LoaderData = { firstInvoiceId?: string; firstCustomerId?: string };
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
   const [firstInvoice, firstCustomer] = await Promise.all([
     getFirstInvoice(),
     getFirstCustomer(),
   ]);
-  return json<LoaderData>({
+  return json({
     firstInvoiceId: firstInvoice?.id,
     firstCustomerId: firstCustomer?.id,
   });
-};
+}
 
 const linkClassName = ({ isActive }: { isActive: boolean }) =>
   isActive ? "font-bold text-black" : "";
 
 export default function SalesRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
   const matches = useMatches();
   const indexMatches = matches.some((m) => m.id === "routes/__app/sales/index");
   const invoiceMatches = matches.some(

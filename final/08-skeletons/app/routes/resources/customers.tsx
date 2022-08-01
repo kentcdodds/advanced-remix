@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import clsx from "clsx";
@@ -13,7 +13,7 @@ type CustomerSearchResult = {
   customers: Awaited<ReturnType<typeof searchCustomers>>;
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json<CustomerSearchResult>({
     customers: await searchCustomers(query),
   });
-};
+}
 
 type Customer = CustomerSearchResult["customers"][number];
 

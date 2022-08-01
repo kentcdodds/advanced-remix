@@ -19,8 +19,6 @@ Let's make the deposit form optimistically list the new deposit the user just su
 - `amount`
 - `depositDateFormatted` (we can get that from `depositDate.toLocalDateString()`)
 
-While we're at it, let's add a `useEffect` to reset the form automatically for the user when the submission is complete (`fetcher.type === 'done'`).
-
 ## 🗃 Files
 
 - `app/routes/__app/sales/invoices/$invoiceId.tsx`
@@ -30,4 +28,4 @@ While we're at it, let's add a `useEffect` to reset the form automatically for t
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=11%3A%2002.%20Optimistic%20UI&em=
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=02.%20Optimistic%20UI&em=

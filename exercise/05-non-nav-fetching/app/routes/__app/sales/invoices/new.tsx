@@ -7,7 +7,7 @@ import {
   submitButtonClasses,
 } from "~/components";
 import { json, redirect } from "@remix-run/node";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { requireUser } from "~/session.server";
 import invariant from "tiny-invariant";
 import { useId, useState } from "react";
@@ -15,24 +15,10 @@ import type { LineItemFields } from "~/models/invoice.server";
 import { createInvoice } from "~/models/invoice.server";
 import { parseDate } from "~/utils";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
   return json({});
-};
-
-type ActionData = {
-  errors: {
-    customerId: string | null;
-    dueDate: string | null;
-    lineItems: Record<
-      string,
-      {
-        quantity: string | null;
-        unitPrice: string | null;
-      }
-    >;
-  };
-};
+}
 
 function validateCustomerId(customerId: string) {
   // the database won't let us create an invoice without a customer
@@ -63,7 +49,7 @@ function validateLineItemUnitPrice(unitPrice: number) {
   return null;
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   await requireUser(request);
   const formData = await request.formData();
   const intent = formData.get("intent");
@@ -91,7 +77,7 @@ export const action: ActionFunction = async ({ request }) => {
         lineItems.push({ quantity, unitPrice, description });
       }
 
-      const errors: ActionData["errors"] = {
+      const errors = {
         customerId: validateCustomerId(customerId),
         dueDate: validateDueDate(dueDate),
         lineItems: lineItems.reduce((acc, lineItem, index) => {
@@ -102,7 +88,7 @@ export const action: ActionFunction = async ({ request }) => {
             unitPrice: validateLineItemUnitPrice(lineItem.unitPrice),
           };
           return acc;
-        }, {} as ActionData["errors"]["lineItems"]),
+        }, {} as Record<string, { quantity: null | string; unitPrice: null | string }>),
       };
 
       const customerIdHasError = errors.customerId !== null;
@@ -113,7 +99,7 @@ export const action: ActionFunction = async ({ request }) => {
       const hasErrors =
         dueDateHasError || customerIdHasError || lineItemsHaveErrors;
       if (hasErrors) {
-        return json<ActionData>({ errors });
+        return json({ errors });
       }
 
       const invoice = await createInvoice({ dueDate, customerId, lineItems });
@@ -122,15 +108,15 @@ export const action: ActionFunction = async ({ request }) => {
     }
   }
   return new Response(`Unsupported intent: ${intent}`, { status: 400 });
-};
+}
 
 export default function NewInvoice() {
-  const actionData = useActionData() as ActionData | undefined;
+  const actionData = useActionData<typeof action>();
   return (
     <div className="relative p-10">
       <h2 className="mb-4 font-display">New Invoice</h2>
       <Form method="post" className="flex flex-col gap-4">
-        {/* 💿 Render the CustomerCombobox here */}
+        {/* 🐨 Render the CustomerCombobox here */}
         <div>
           <div className="flex flex-wrap items-center gap-1">
             <label htmlFor="dueDate">
@@ -210,7 +196,7 @@ function LineItemFormFields({
   index: number;
   onRemoveClick: () => void;
 }) {
-  const actionData = useActionData() as ActionData | undefined;
+  const actionData = useActionData<typeof action>();
   const errors = actionData?.errors.lineItems[lineItemClientId];
   return (
     <fieldset key={lineItemClientId} className="border-b-2 py-2">

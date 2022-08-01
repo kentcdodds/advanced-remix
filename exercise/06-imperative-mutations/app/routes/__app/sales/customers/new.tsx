@@ -1,12 +1,12 @@
 import { Form } from "@remix-run/react";
-import type { ActionFunction } from "@remix-run/server-runtime";
-import { redirect } from "@remix-run/server-runtime";
+import type { ActionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { inputClasses, LabelText, submitButtonClasses } from "~/components";
 import { createCustomer } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   await requireUser(request);
   const formData = await request.formData();
   const intent = formData.get("intent");
@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
   }
   return new Response(`Unsupported intent: ${intent}`, { status: 400 });
-};
+}
 
 export default function NewCustomer() {
   return (

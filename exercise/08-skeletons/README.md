@@ -21,4 +21,4 @@ When we're on the customer page navigating between customers, we want to show a 
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=8%3A%2008.%20Skeletons&em=
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=08.%20Skeletons&em=

@@ -1,8 +1,4 @@
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { ShouldReloadFunction } from "@remix-run/react";
 import {
@@ -36,18 +32,14 @@ export const meta: MetaFunction = () => ({
   title: "Fakebooks Remix",
 });
 
-type LoaderData = {
-  user: Awaited<ReturnType<typeof getUser>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  return json<LoaderData>({
+export async function loader({ request }: LoaderArgs) {
+  return json({
     user: await getUser(request),
   });
-};
+}
 
 export default function App() {
-  const { user } = useLoaderData() as LoaderData;
+  const { user } = useLoaderData<typeof loader>();
   return (
     <html lang="en" className="h-full">
       <head>

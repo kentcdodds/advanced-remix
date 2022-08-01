@@ -1,5 +1,5 @@
 <div>
-  <h1 align="center"><a href="https://kentcdodds.com/workshops/advanced-remix">💿 Advanced Remix Workshop</a></h1>
+  <h1 align="center"><a href="https://kentcdodds.com/workshops/advanced-remix">🐨 Advanced Remix Workshop</a></h1>
   <p>
     Remix enables you to build fantastic user experiences for the web and feel
     happy with the code that got you there. In this workshop, we'll look at some

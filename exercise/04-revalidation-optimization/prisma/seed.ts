@@ -11,13 +11,13 @@ const fromNow = (days: number) =>
   asUTC(new Date(asUTC(new Date()).getTime() + 1000 * 60 * 60 * 24 * days));
 
 async function seed() {
-  const email = "rachel@remix.run";
+  const email = "kody@remix.run";
 
   // cleanup the existing database
   await prisma.user.deleteMany({});
   await prisma.customer.deleteMany({});
 
-  const hashedPassword = await bcrypt.hash("racheliscool", 10);
+  const hashedPassword = await bcrypt.hash("kodylovesyou", 10);
 
   await prisma.user.create({
     data: {

@@ -1,4 +1,4 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { redirect, json } from "@remix-run/node";
 import { deleteDeposit, getDepositDetails } from "~/models/deposit.server";
@@ -6,11 +6,7 @@ import { requireUser } from "~/session.server";
 import invariant from "tiny-invariant";
 import { TrashIcon } from "~/components";
 
-type LoaderData = {
-  depositNote: string;
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { depositId } = params;
   if (typeof depositId !== "string") {
@@ -21,12 +17,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw new Response("not found", { status: 404 });
   }
 
-  return json<LoaderData>({
+  return json({
     depositNote: depositDetails.note,
   });
-};
+}
 
-export const action: ActionFunction = async ({ request, params }) => {
+export async function action({ request, params }: ActionArgs) {
   const { depositId } = params;
   if (typeof depositId !== "string") {
     throw new Error("This should be unpossible.");
@@ -43,10 +39,10 @@ export const action: ActionFunction = async ({ request, params }) => {
       throw new Error(`Unsupported intent: ${intent}`);
     }
   }
-};
+}
 
 export default function DepositRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
   return (
     <div className="p-8">
       <div className="flex justify-between">

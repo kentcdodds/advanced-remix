@@ -1,26 +1,22 @@
 import * as React from "react";
 import { Link, useLoaderData, useOutlet, useParams } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { CevronDownIcon } from "~/components";
 import { getDepositListItems } from "~/models/deposit.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 import clsx from "clsx";
 
-type LoaderData = {
-  deposits: Awaited<ReturnType<typeof getDepositListItems>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
-  return json<LoaderData>({
+  return json({
     deposits: await getDepositListItems(),
   });
-};
+}
 
 export default function Deposits() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
   const outlet = useOutlet();
   const { depositId } = useParams();
   const depositNotFound =

@@ -1,14 +1,14 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 
 import { logout } from "~/session.server";
 import { safeRedirect } from "~/utils";
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   return logout(request, safeRedirect(formData.get("redirectTo"), "/"));
-};
+}
 
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   return redirect("/");
-};
+}

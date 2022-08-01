@@ -1,8 +1,4 @@
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { ShouldReloadFunction } from "@remix-run/react";
 import {
@@ -36,18 +32,14 @@ export const meta: MetaFunction = () => ({
   title: "Fakebooks Remix",
 });
 
-type LoaderData = {
-  user: Awaited<ReturnType<typeof getUser>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  return json<LoaderData>({
+export async function loader({ request }: LoaderArgs) {
+  return json({
     user: await getUser(request),
   });
-};
+}
 
 export default function App() {
-  const { user } = useLoaderData() as LoaderData;
+  const { user } = useLoaderData<typeof loader>();
   return (
     <html lang="en" className="h-full">
       <head>
@@ -128,7 +120,5 @@ function LogoutTimer() {
   );
 }
 
-// There's currently a bug in this API when used in combination with
-// fetcher.submit, so we'll disable this optimization for this exercise
-// export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
-//   submission?.action === "/logout" || submission?.action === "/login";
+export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
+  submission?.action === "/logout" || submission?.action === "/login";

@@ -1,4 +1,4 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Link,
@@ -9,29 +9,12 @@ import {
 } from "@remix-run/react";
 import { inputClasses, LabelText, submitButtonClasses } from "~/components";
 import { getInvoiceDetails } from "~/models/invoice.server";
-import type { LineItem, DueStatus } from "~/models/invoice.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter, parseDate } from "~/utils";
-import type { Deposit } from "~/models/deposit.server";
 import { createDeposit } from "~/models/deposit.server";
 import invariant from "tiny-invariant";
 
-type LoaderData = {
-  customerName: string;
-  customerId: string;
-  totalAmount: number;
-  dueStatus: DueStatus;
-  dueDisplay: string;
-  invoiceDateDisplay: string;
-  lineItems: Array<
-    Pick<LineItem, "id" | "quantity" | "unitPrice" | "description">
-  >;
-  deposits: Array<
-    Pick<Deposit, "id" | "amount"> & { depositDateFormatted: string }
-  >;
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { invoiceId } = params;
   if (typeof invoiceId !== "string") {
@@ -41,7 +24,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!invoiceDetails) {
     throw new Response("not found", { status: 404 });
   }
-  return json<LoaderData>({
+  return json({
     customerName: invoiceDetails.invoice.customer.name,
     customerId: invoiceDetails.invoice.customer.id,
     totalAmount: invoiceDetails.totalAmount,
@@ -60,14 +43,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       depositDateFormatted: deposit.depositDate.toLocaleDateString(),
     })),
   });
-};
-
-type ActionData = {
-  errors: {
-    amount: string | null;
-    depositDate: string | null;
-  };
-};
+}
 
 function validateAmount(amount: number) {
   if (amount <= 0) return "Must be greater than 0";
@@ -84,7 +60,7 @@ function validateDepositDate(date: Date) {
   return null;
 }
 
-export const action: ActionFunction = async ({ request, params }) => {
+export async function action({ request, params }: ActionArgs) {
   await requireUser(request);
   const { invoiceId } = params;
   if (typeof invoiceId !== "string") {
@@ -103,7 +79,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       invariant(typeof note === "string", "dueDate is required");
       const depositDate = parseDate(depositDateString);
 
-      const errors: ActionData["errors"] = {
+      const errors = {
         amount: validateAmount(amount),
         depositDate: validateDepositDate(depositDate),
       };
@@ -111,7 +87,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         (errorMessage) => errorMessage
       );
       if (hasErrors) {
-        return json<ActionData>({ errors });
+        return json({ errors });
       }
 
       await createDeposit({ invoiceId, amount, note, depositDate });
@@ -121,12 +97,12 @@ export const action: ActionFunction = async ({ request, params }) => {
       throw new Error(`Unsupported intent: ${intent}`);
     }
   }
-};
+}
 
 const lineItemClassName =
   "flex justify-between border-t border-gray-100 py-4 text-[14px] leading-[24px]";
 export default function InvoiceRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
   const location = useLocation();
   return (
     <div className="relative p-10" key={location.key}>
@@ -173,8 +149,8 @@ export default function InvoiceRoute() {
 }
 
 function Deposits() {
-  const data = useLoaderData() as LoaderData;
-  // 💿 call useFetcher here to get the fetcher for the form
+  const data = useLoaderData<typeof loader>();
+  // 🐨 call useFetcher here to get the fetcher for the form
 
   return (
     <div>
@@ -194,7 +170,7 @@ function Deposits() {
       ) : (
         <div>None yet</div>
       )}
-      {/* 💿 change this to your fetcher.Form */}
+      {/* 🐨 change this to your fetcher.Form */}
       <form
         method="post"
         className="grid grid-cols-1 gap-x-4 gap-y-2 lg:grid-cols-2"

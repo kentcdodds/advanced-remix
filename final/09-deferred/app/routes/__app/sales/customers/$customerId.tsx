@@ -1,4 +1,4 @@
-import type { LoaderFunction, Deferrable } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { deferred } from "@remix-run/node";
 import {
   Deferred,
@@ -7,22 +7,11 @@ import {
   useLoaderData,
   useParams,
 } from "@remix-run/react";
+import { Suspense } from "react";
 import { ErrorFallback, InvoiceDetailsFallback } from "~/components";
 import { getCustomerDetails } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
-
-type LoaderData = {
-  customerInfo: {
-    name: string;
-    email: string;
-  };
-  invoiceDetails: Deferrable<
-    NonNullable<
-      Awaited<ReturnType<typeof getCustomerDetails>>
-    >["invoiceDetails"]
-  >;
-};
 
 async function getCustomerInfo(customerId: string) {
   const customer = await getCustomerDetails(customerId);
@@ -38,7 +27,7 @@ async function getCustomerInvoiceDetails(customerId: string) {
   return customerDetails?.invoiceDetails ?? [];
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
   if (typeof customerId !== "string") {
@@ -49,16 +38,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw new Response("not found", { status: 404 });
   }
   const invoiceDetailsPromise = getCustomerInvoiceDetails(customerId);
-  return deferred<LoaderData>({
+  return deferred({
     customerInfo,
     invoiceDetails: invoiceDetailsPromise,
   });
-};
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 
 export default function CustomerRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div className="relative p-10">
@@ -71,50 +60,51 @@ export default function CustomerRoute() {
       <div className="h-4" />
       <div className="text-m-h3 font-bold leading-8">Invoices</div>
       <div className="h-4" />
-      <Deferred
-        value={data.invoiceDetails}
-        fallback={<InvoiceDetailsFallback />}
-        errorElement={
-          <div className="relative h-full">
-            <ErrorFallback />
-          </div>
-        }
-      >
-        {(invoiceDetails) => (
-          <table className="w-full">
-            <tbody>
-              {invoiceDetails.map((details) => (
-                <tr key={details.id} className={lineItemClassName}>
-                  <td>
-                    <Link
-                      className="text-blue-600 underline"
-                      to={`../../invoices/${details.id}`}
+      <Suspense fallback={<InvoiceDetailsFallback />}>
+        <Deferred
+          value={data.invoiceDetails}
+          errorElement={
+            <div className="relative h-full">
+              <ErrorFallback />
+            </div>
+          }
+        >
+          {(invoiceDetails) => (
+            <table className="w-full">
+              <tbody>
+                {invoiceDetails.map((details) => (
+                  <tr key={details.id} className={lineItemClassName}>
+                    <td>
+                      <Link
+                        className="text-blue-600 underline"
+                        to={`../../invoices/${details.id}`}
+                      >
+                        {details.number}
+                      </Link>
+                    </td>
+                    <td
+                      className={
+                        "text-center uppercase" +
+                        " " +
+                        (details.dueStatus === "paid"
+                          ? "text-green-brand"
+                          : details.dueStatus === "overdue"
+                          ? "text-red-brand"
+                          : "")
+                      }
                     >
-                      {details.number}
-                    </Link>
-                  </td>
-                  <td
-                    className={
-                      "text-center uppercase" +
-                      " " +
-                      (details.dueStatus === "paid"
-                        ? "text-green-brand"
-                        : details.dueStatus === "overdue"
-                        ? "text-red-brand"
-                        : "")
-                    }
-                  >
-                    {details.dueStatusDisplay}
-                  </td>
-                  <td className="text-right">
-                    {currencyFormatter.format(details.totalAmount)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </Deferred>
+                      {details.dueStatusDisplay}
+                    </td>
+                    <td className="text-right">
+                      {currencyFormatter.format(details.totalAmount)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </Deferred>
+      </Suspense>
     </div>
   );
 }

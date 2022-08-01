@@ -1,6 +1,9 @@
 {
   "name": "advanced-remix",
   "title": "Advanced Remix 🦸",
+  "kcd-workshop": {
+    "root": true
+  },
   "version": "1.0.0",
   "description": "Learn the fundamentals of Remix with this workshop",
   "main": "index.js",

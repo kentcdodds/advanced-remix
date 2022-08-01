@@ -1,21 +1,10 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { ErrorFallback } from "~/components";
 import { getCustomerDetails } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
-
-type LoaderData = {
-  customerInfo: {
-    name: string;
-    email: string;
-  };
-  // 💿 wrap this in the Deferrable generic (from @remix-run/node) to this:
-  invoiceDetails: NonNullable<
-    Awaited<ReturnType<typeof getCustomerDetails>>
-  >["invoiceDetails"];
-};
 
 async function getCustomerInfo(customerId: string) {
   const customer = await getCustomerDetails(customerId);
@@ -31,15 +20,15 @@ async function getCustomerInvoiceDetails(customerId: string) {
   return customerDetails?.invoiceDetails ?? [];
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
   if (typeof customerId !== "string") {
     throw new Error("This should be unpossible.");
   }
   // The invoiceDetails are slow, so let's defer that.
-  // 💿 Change this from a Promise.all to two separate calls
-  // 💿 Await the customer info, and not the invoice details (so the value of invoiceDetails will be a promise).
+  // 🐨 Change this from a Promise.all to two separate calls
+  // 🐨 Await the customer info, and not the invoice details (so the value of invoiceDetails will be a promise).
   const [customerInfo, invoiceDetails] = await Promise.all([
     getCustomerInfo(customerId),
     getCustomerInvoiceDetails(customerId),
@@ -47,17 +36,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!customerInfo) {
     throw new Response("not found", { status: 404 });
   }
-  // 💿 change this from json to deferred (from @remix-run/node)
-  return json<LoaderData>({
+  // 🐨 change this from json to deferred (from @remix-run/node)
+  return json({
     customerInfo,
     invoiceDetails,
   });
-};
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 
 export default function CustomerRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div className="relative p-10">
@@ -71,7 +60,7 @@ export default function CustomerRoute() {
       <div className="text-m-h3 font-bold leading-8">Invoices</div>
       <div className="h-4" />
       {/*
-        💿 Wrap this in a <Deferred /> component with:
+        🐨 Wrap this in a <Deferred /> component with:
         - value as data.invoiceDetails
         - fallback as <InvoiceDetailsFallback /> (imported from "~/components")
       */}

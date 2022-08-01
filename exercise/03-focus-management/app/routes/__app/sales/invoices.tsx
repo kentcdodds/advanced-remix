@@ -1,20 +1,14 @@
 import { Outlet } from "@remix-run/react";
 import { FilePlusIcon, LabelText } from "~/components";
 
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, NavLink } from "@remix-run/react";
 import { getInvoiceListItems } from "~/models/invoice.server";
 import { currencyFormatter } from "~/utils";
 import { requireUser } from "~/session.server";
 
-type LoaderData = {
-  invoiceListItems: Awaited<ReturnType<typeof getInvoiceListItems>>;
-  overdueAmount: number;
-  dueSoonAmount: number;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
   const invoiceListItems = await getInvoiceListItems();
   const dueSoonAmount = invoiceListItems.reduce((sum, li) => {
@@ -31,15 +25,15 @@ export const loader: LoaderFunction = async ({ request }) => {
     const remainingBalance = li.totalAmount - li.totalDeposits;
     return sum + remainingBalance;
   }, 0);
-  return json<LoaderData>({
+  return json({
     invoiceListItems,
     overdueAmount,
     dueSoonAmount,
   });
-};
+}
 
 export default function InvoicesRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
   const hundo = data.dueSoonAmount + data.overdueAmount;
   const dueSoonPercent = Math.floor((data.dueSoonAmount / hundo) * 100);
   return (
@@ -85,7 +79,7 @@ function InvoicesInfo({
 }
 
 function InvoiceList({ children }: { children: React.ReactNode }) {
-  const { invoiceListItems } = useLoaderData() as LoaderData;
+  const { invoiceListItems } = useLoaderData<typeof loader>();
   return (
     <div className="flex overflow-hidden rounded-lg border border-gray-100">
       <div className="w-1/2 border-r border-gray-100">

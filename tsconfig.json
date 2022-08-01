@@ -2,31 +2,59 @@
   "files": [],
   "exclude": ["node_modules"],
   "references": [
-    { "path": "exercise/01-non-nav-mutations" },
-    { "path": "final/01-non-nav-mutations" },
-
-    { "path": "exercise/02-optimistic-ui" },
-    { "path": "final/02-optimistic-ui" },
-
-    { "path": "exercise/03-focus-management" },
-    { "path": "final/03-focus-management" },
-
-    { "path": "exercise/04-revalidation-optimization" },
-    { "path": "final/04-revalidation-optimization" },
-
-    { "path": "exercise/05-non-nav-fetching" },
-    { "path": "final/05-non-nav-fetching" },
-
-    { "path": "exercise/06-imperative-mutations" },
-    { "path": "final/06-imperative-mutations" },
-
-    { "path": "exercise/07-pending-ui" },
-    { "path": "final/07-pending-ui" },
-
-    { "path": "exercise/08-skeletons" },
-    { "path": "final/08-skeletons" },
-
-    { "path": "exercise/09-deferred" },
-    { "path": "final/09-deferred" }
+    {
+      "path": "exercise/01-non-nav-mutations"
+    },
+    {
+      "path": "exercise/02-optimistic-ui"
+    },
+    {
+      "path": "exercise/03-focus-management"
+    },
+    {
+      "path": "exercise/04-revalidation-optimization"
+    },
+    {
+      "path": "exercise/05-non-nav-fetching"
+    },
+    {
+      "path": "exercise/06-imperative-mutations"
+    },
+    {
+      "path": "exercise/07-pending-ui"
+    },
+    {
+      "path": "exercise/08-skeletons"
+    },
+    {
+      "path": "exercise/09-deferred"
+    },
+    {
+      "path": "final/01-non-nav-mutations"
+    },
+    {
+      "path": "final/02-optimistic-ui"
+    },
+    {
+      "path": "final/03-focus-management"
+    },
+    {
+      "path": "final/04-revalidation-optimization"
+    },
+    {
+      "path": "final/05-non-nav-fetching"
+    },
+    {
+      "path": "final/06-imperative-mutations"
+    },
+    {
+      "path": "final/07-pending-ui"
+    },
+    {
+      "path": "final/08-skeletons"
+    },
+    {
+      "path": "final/09-deferred"
+    }
   ]
 }

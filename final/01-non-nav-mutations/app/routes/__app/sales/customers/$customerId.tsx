@@ -1,15 +1,11 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { getCustomerDetails } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 
-type LoaderData = {
-  customer: NonNullable<Awaited<ReturnType<typeof getCustomerDetails>>>;
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
   if (typeof customerId !== "string") {
@@ -19,15 +15,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!customerDetails) {
     throw new Response("not found", { status: 404 });
   }
-  return json<LoaderData>({
+  return json({
     customer: customerDetails,
   });
-};
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 
 export default function CustomerRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div className="relative p-10">

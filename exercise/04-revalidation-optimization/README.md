@@ -29,4 +29,4 @@ We don't need to reload the user whenever there's a mutation. The user's informa
 After the instruction, if you want to remember what you've just learned, then
 fill out the elaboration and feedback form:
 
-https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=4%3A%2004.%20Revalidation%20Optimization&em=
+https://ws.kcd.im/?ws=Advanced%20Remix%20%F0%9F%A6%B8&e=04.%20Revalidation%20Optimization&em=
