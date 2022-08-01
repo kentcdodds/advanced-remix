@@ -1,5 +1,8 @@
 # 06. Imperative Mutations
 
+TODO: If you're reading this it means Kent didn't get around to fixing this
+exercise... Hopefully you're not reading this.
+
 ## 📝 Notes
 
 ## 🤓 Background
