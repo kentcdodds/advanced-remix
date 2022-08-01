@@ -87,7 +87,7 @@ export async function action({ request, params }: ActionArgs) {
         depositDate: validateDepositDate(depositDate),
       };
       const hasErrors = Object.values(errors).some(
-        (errorMessage) => errorMessage
+        (errorMessage) => errorMessage,
       );
       if (hasErrors) {
         return json({ errors });
@@ -343,7 +343,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
   return (
     <div className="absolute inset-0 flex justify-center bg-red-100 pt-4">
-      <div className="text-center text-red-brand">
+      <div className="text-red-brand text-center">
         <div className="text-[14px] font-bold">Oh snap!</div>
         <div className="px-2 text-[12px]">There was a problem. Sorry.</div>
       </div>

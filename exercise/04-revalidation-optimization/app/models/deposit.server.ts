@@ -41,7 +41,7 @@ export async function getDepositDetails(depositId: string) {
 }
 
 export async function createDeposit(
-  data: Pick<Deposit, "invoiceId" | "amount" | "note" | "depositDate">
+  data: Pick<Deposit, "invoiceId" | "amount" | "note" | "depositDate">,
 ) {
   return prisma.deposit.create({ data });
 }

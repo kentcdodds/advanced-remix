@@ -25,10 +25,10 @@ export default function SalesRoute() {
   const matches = useMatches();
   const indexMatches = matches.some((m) => m.id === "routes/__app/sales/index");
   const invoiceMatches = matches.some(
-    (m) => m.id === "routes/__app/sales/invoices"
+    (m) => m.id === "routes/__app/sales/invoices",
   );
   const customerMatches = matches.some(
-    (m) => m.id === "routes/__app/sales/customers"
+    (m) => m.id === "routes/__app/sales/customers",
   );
   return (
     <div className="relative h-full p-10">

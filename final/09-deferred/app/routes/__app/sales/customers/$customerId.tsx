@@ -22,7 +22,7 @@ async function getCustomerInfo(customerId: string) {
 async function getCustomerInvoiceDetails(customerId: string) {
   const customerDetails = await getCustomerDetails(customerId);
   await new Promise((resolve) =>
-    setTimeout(resolve, Math.random() * 3000 + 1500)
+    setTimeout(resolve, Math.random() * 3000 + 1500),
   );
   return customerDetails?.invoiceDetails ?? [];
 }

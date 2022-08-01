@@ -94,7 +94,7 @@ export async function action({ request }: ActionArgs) {
       const customerIdHasError = errors.customerId !== null;
       const dueDateHasError = errors.dueDate !== null;
       const lineItemsHaveErrors = Object.values(errors.lineItems).some(
-        (lineItem) => Object.values(lineItem).some(Boolean)
+        (lineItem) => Object.values(lineItem).some(Boolean),
       );
       const hasErrors =
         dueDateHasError || customerIdHasError || lineItemsHaveErrors;
@@ -114,7 +114,7 @@ export default function NewInvoice() {
   const actionData = useActionData<typeof action>();
   return (
     <div className="relative p-10">
-      <h2 className="mb-4 font-display">New Invoice</h2>
+      <h2 className="font-display mb-4">New Invoice</h2>
       <Form method="post" className="flex flex-col gap-4">
         {/* 🐨 Render the CustomerCombobox here */}
         <div>
@@ -169,7 +169,7 @@ function LineItems() {
           index={index}
           onRemoveClick={() => {
             setLineItems((lis) =>
-              lis.filter((id, i) => id !== lineItemClientId)
+              lis.filter((id, i) => id !== lineItemClientId),
             );
           }}
         />
@@ -278,7 +278,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
   return (
     <div className="absolute inset-0 flex justify-center bg-red-100 pt-4">
-      <div className="text-center text-red-brand">
+      <div className="text-red-brand text-center">
         <div className="text-[14px] font-bold">Oh snap!</div>
         <div className="px-2 text-[12px]">There was a problem. Sorry.</div>
       </div>

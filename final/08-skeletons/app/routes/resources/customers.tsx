@@ -46,7 +46,7 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
 
       customerFetcher.submit(
         { query: changes.inputValue },
-        { method: "get", action: "/resources/customers" }
+        { method: "get", action: "/resources/customers" },
       );
     },
   });
@@ -86,7 +86,7 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
         {...cb.getMenuProps({
           className: clsx(
             "absolute z-10 bg-white shadow-lg rounded-b w-full border border-t-0 border-gray-500 max-h-[180px] overflow-scroll",
-            { hidden: !displayMenu }
+            { hidden: !displayMenu },
           ),
         })}
       >

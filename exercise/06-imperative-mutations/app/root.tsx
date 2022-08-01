@@ -106,7 +106,7 @@ function LogoutTimer() {
       onDismiss={closeModal}
     >
       <div>
-        <h1 className="mb-4 text-d-h3">Are you still there?</h1>
+        <h1 className="text-d-h3 mb-4">Are you still there?</h1>
         <p>
           You are going to be logged out due to inactivity. Close this modal to
           stay logged in.

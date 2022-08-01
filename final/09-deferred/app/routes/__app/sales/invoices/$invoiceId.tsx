@@ -92,7 +92,7 @@ export async function action({ request, params }: ActionArgs) {
         depositDate: validateDepositDate(depositDate),
       };
       const hasErrors = Object.values(errors).some(
-        (errorMessage) => errorMessage
+        (errorMessage) => errorMessage,
       );
       if (hasErrors) {
         return json({ errors });

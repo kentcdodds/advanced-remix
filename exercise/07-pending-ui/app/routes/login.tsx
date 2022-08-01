@@ -29,14 +29,14 @@ export async function action({ request }: ActionArgs) {
   if (typeof password !== "string") {
     return json(
       { errors: { password: "Password is required" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json(
       { errors: { password: "Password is too short" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -48,7 +48,7 @@ export async function action({ request }: ActionArgs) {
       if (existingUser) {
         return json(
           { errors: { email: "A user already exists with this email" } },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -67,7 +67,7 @@ export async function action({ request }: ActionArgs) {
   if (!user) {
     return json(
       { errors: { email: "Invalid email or password" } },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -117,7 +117,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="email"
-              className="text-sm block font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700"
             >
               Email address
             </label>
@@ -145,7 +145,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="password"
-              className="text-sm block font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700"
             >
               Password
             </label>
@@ -197,7 +197,7 @@ export default function LoginPage() {
               />
               <label
                 htmlFor="remember"
-                className="text-sm ml-2 block text-gray-900"
+                className="ml-2 block text-sm text-gray-900"
               >
                 Remember me
               </label>

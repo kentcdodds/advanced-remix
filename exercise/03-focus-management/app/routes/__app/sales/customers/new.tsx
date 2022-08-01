@@ -28,7 +28,7 @@ export async function action({ request }: ActionArgs) {
 export default function NewCustomer() {
   return (
     <div className="relative p-10">
-      <h2 className="mb-4 font-display">New Customer</h2>
+      <h2 className="font-display mb-4">New Customer</h2>
       <Form method="post" className="flex flex-col gap-4">
         <div>
           <label htmlFor="name">

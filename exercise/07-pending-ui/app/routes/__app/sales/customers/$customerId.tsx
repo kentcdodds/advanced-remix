@@ -8,7 +8,7 @@ import { currencyFormatter } from "~/utils";
 export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   await new Promise((resolve) =>
-    setTimeout(resolve, Math.random() * 3000 + 1500)
+    setTimeout(resolve, Math.random() * 3000 + 1500),
   );
   const { customerId } = params;
   if (typeof customerId !== "string") {

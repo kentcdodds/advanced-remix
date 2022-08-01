@@ -53,7 +53,7 @@ export default function DepositRoute() {
             <span className="pl-1">{data.depositNote}</span>
           </span>
         ) : (
-          <span className="text-m-p-sm uppercase text-gray-500 md:text-d-p-sm">
+          <span className="text-m-p-sm md:text-d-p-sm uppercase text-gray-500">
             No note
           </span>
         )}

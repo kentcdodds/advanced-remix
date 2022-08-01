@@ -200,7 +200,7 @@ export function ErrorFallback({
 }) {
   return (
     <div className="absolute inset-0 flex justify-center bg-red-100 pt-4">
-      <div className="text-center text-red-brand">
+      <div className="text-red-brand text-center">
         <div className="text-[14px] font-bold">Oh snap!</div>
         <div className="px-2 text-[12px]">{message}</div>
       </div>

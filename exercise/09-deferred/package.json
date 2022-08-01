@@ -19,7 +19,6 @@
     "typecheck": "tsc -b",
     "validate": "run-p \"test -- --run\" lint typecheck"
   },
-  "prettier": {},
   "eslintIgnore": [
     "/node_modules",
     "/build",

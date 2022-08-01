@@ -6,7 +6,7 @@ export type DueStatus = "paid" | "overpaid" | "overdue" | "due";
 
 const getDaysToDueDate = (date: Date) =>
   Math.ceil(
-    (date.getTime() - asUTC(new Date()).getTime()) / (1000 * 60 * 60 * 24)
+    (date.getTime() - asUTC(new Date()).getTime()) / (1000 * 60 * 60 * 24),
   );
 
 export function getInvoiceDerivedData(invoice: {
@@ -18,11 +18,11 @@ export function getInvoiceDerivedData(invoice: {
 
   const totalAmount = invoice.lineItems.reduce(
     (acc, item) => acc + item.quantity * item.unitPrice,
-    0
+    0,
   );
   const totalDeposits = invoice.deposits.reduce(
     (acc, deposit) => acc + deposit.amount,
-    0
+    0,
   );
   const dueStatus: DueStatus =
     totalAmount === totalDeposits
