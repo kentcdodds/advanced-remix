@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
-import { deferred } from "@remix-run/node";
+import { defer } from "@remix-run/node";
 import {
-  Deferred,
+  Await,
   Link,
   useCatch,
   useLoaderData,
@@ -38,7 +38,7 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new Response("not found", { status: 404 });
   }
   const invoiceDetailsPromise = getCustomerInvoiceDetails(customerId);
-  return deferred({
+  return defer({
     customerInfo,
     invoiceDetails: invoiceDetailsPromise,
   });
@@ -61,8 +61,8 @@ export default function CustomerRoute() {
       <div className="text-m-h3 font-bold leading-8">Invoices</div>
       <div className="h-4" />
       <Suspense fallback={<InvoiceDetailsFallback />}>
-        <Deferred
-          value={data.invoiceDetails}
+        <Await
+          resolve={data.invoiceDetails}
           errorElement={
             <div className="relative h-full">
               <ErrorFallback />
@@ -72,6 +72,7 @@ export default function CustomerRoute() {
           {(invoiceDetails) => (
             <table className="w-full">
               <tbody>
+                {/* @ts-expect-error this should be fixed tomorrow */}
                 {invoiceDetails.map((details) => (
                   <tr key={details.id} className={lineItemClassName}>
                     <td>
@@ -103,7 +104,7 @@ export default function CustomerRoute() {
               </tbody>
             </table>
           )}
-        </Deferred>
+        </Await>
       </Suspense>
     </div>
   );

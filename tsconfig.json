@@ -27,7 +27,7 @@
       "path": "exercise/08-skeletons"
     },
     {
-      "path": "exercise/09-deferred"
+      "path": "exercise/09-defer"
     },
     {
       "path": "final/01-non-nav-mutations"
@@ -54,7 +54,7 @@
       "path": "final/08-skeletons"
     },
     {
-      "path": "final/09-deferred"
+      "path": "final/09-defer"
     }
   ]
 }
