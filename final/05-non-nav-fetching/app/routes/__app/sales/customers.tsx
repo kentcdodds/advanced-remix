@@ -10,6 +10,7 @@ import { useSpinDelay } from "spin-delay";
 import { FilePlusIcon } from "~/components";
 import { requireUser } from "~/session.server";
 import { getCustomerListItems } from "~/models/customer.server";
+
 type LoadingCustomer = Awaited<ReturnType<typeof getCustomerListItems>>[number];
 
 export async function loader({ request }: LoaderArgs) {
