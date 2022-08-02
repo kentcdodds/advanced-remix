@@ -10,7 +10,6 @@ export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "__session",
     httpOnly: true,
-    maxAge: 0,
     path: "/",
     sameSite: "lax",
     secrets: [process.env.SESSION_SECRET],
@@ -53,7 +52,11 @@ export async function requireUserId(
 
 export async function requireUser(request: Request) {
   const userId = await requireUserId(request);
-  return getUserById(userId);
+
+  const user = await getUserById(userId);
+  if (user) return user;
+
+  throw await logout(request);
 }
 
 export async function createUserSession({
@@ -80,7 +83,10 @@ export async function createUserSession({
   });
 }
 
-export async function logout(request: Request, redirectTo: string) {
+export async function logout(
+  request: Request,
+  redirectTo: string = request.url,
+) {
   const session = await getSession(request);
   const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
   return redirect(

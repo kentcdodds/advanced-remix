@@ -72,7 +72,6 @@ export default function CustomerRoute() {
           {(invoiceDetails) => (
             <table className="w-full">
               <tbody>
-                {/* @ts-expect-error this should be fixed tomorrow */}
                 {invoiceDetails.map((details) => (
                   <tr key={details.id} className={lineItemClassName}>
                     <td>

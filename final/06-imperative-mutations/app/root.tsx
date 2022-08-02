@@ -61,6 +61,8 @@ function LogoutTimer() {
   const [status, setStatus] = useState<"idle" | "show-modal">("idle");
   const location = useLocation();
   const fetcher = useFetcher();
+  // const logoutTime = 5000;
+  // const modalTime = 3000;
   const logoutTime = 1000 * 60 * 60 * 24;
   const modalTime = logoutTime - 1000 * 60 * 2;
   const modalTimer = useRef<ReturnType<typeof setTimeout>>();
