@@ -1,25 +1,29 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
-import { getCustomerDetails } from "~/models/customer.server";
+import invariant from "tiny-invariant";
+import { getCustomerDetails, getCustomerInfo } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 
 export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
-  await new Promise((resolve) =>
-    setTimeout(resolve, Math.random() * 3000 + 1500),
-  );
+
   const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
-  const customerDetails = await getCustomerDetails(customerId);
-  if (!customerDetails) {
+  invariant(
+    typeof customerId === "string",
+    "params.customerId is not available",
+  );
+  const [customerInfo, customerDetails] = await Promise.all([
+    getCustomerInfo(customerId),
+    getCustomerDetails(customerId),
+  ]);
+  if (!customerDetails || !customerInfo) {
     throw new Response("not found", { status: 404 });
   }
   return json({
-    customer: customerDetails,
+    customerInfo,
+    customerDetails,
   });
 }
 
@@ -31,17 +35,17 @@ export default function CustomerRoute() {
   return (
     <div className="relative p-10">
       <div className="text-[length:14px] font-bold leading-6">
-        {data.customer.email}
+        {data.customerInfo.email}
       </div>
       <div className="text-[length:32px] font-bold leading-[40px]">
-        {data.customer.name}
+        {data.customerInfo.name}
       </div>
       <div className="h-4" />
       <div className="text-m-h3 font-bold leading-8">Invoices</div>
       <div className="h-4" />
       <table className="w-full">
         <tbody>
-          {data.customer.invoiceDetails.map((invoiceDetails) => (
+          {data.customerDetails.invoiceDetails.map((invoiceDetails) => (
             <tr key={invoiceDetails.id} className={lineItemClassName}>
               <td>
                 <Link

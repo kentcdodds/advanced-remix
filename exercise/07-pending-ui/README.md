@@ -19,8 +19,11 @@ via Remix's `useTransition()` hook and you're in business:
 
 ## 💪 Exercise
 
-We've slowed down the customers' page load time. So navigating around the
-customers will be slow and frustrating. We already have a spinner component
+We've slowed down the customers' page load time. We're going to pretend that the
+backend for loading the invoice details for our customers is quite slow. So
+navigating around the customers will be slow and frustrating. One thing we
+should do to address this better is to give the user an indication that we're
+working on their request to navigate. We already have a spinner component
 implemented for you. Your job is just to render it when the app is loading.
 Using `useTransition` you can render the spinner when the app is in a loading
 state (💰 or a not "idle" state).

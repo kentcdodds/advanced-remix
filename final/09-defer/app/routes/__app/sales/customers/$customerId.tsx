@@ -8,39 +8,27 @@ import {
   useParams,
 } from "@remix-run/react";
 import { Suspense } from "react";
+import invariant from "tiny-invariant";
 import { ErrorFallback, InvoiceDetailsFallback } from "~/components";
-import { getCustomerDetails } from "~/models/customer.server";
+import { getCustomerDetails, getCustomerInfo } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
-
-async function getCustomerInfo(customerId: string) {
-  const customer = await getCustomerDetails(customerId);
-  if (!customer) return null;
-  return { name: customer.name, email: customer.email };
-}
-
-async function getCustomerInvoiceDetails(customerId: string) {
-  const customerDetails = await getCustomerDetails(customerId);
-  await new Promise((resolve) =>
-    setTimeout(resolve, Math.random() * 3000 + 1500),
-  );
-  return customerDetails?.invoiceDetails ?? [];
-}
 
 export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
+  invariant(
+    typeof customerId === "string",
+    "params.customerId is not available",
+  );
   const customerInfo = await getCustomerInfo(customerId);
   if (!customerInfo) {
     throw new Response("not found", { status: 404 });
   }
-  const invoiceDetailsPromise = getCustomerInvoiceDetails(customerId);
+  const customerDetailsPromise = getCustomerDetails(customerId);
   return defer({
     customerInfo,
-    invoiceDetails: invoiceDetailsPromise,
+    customerDetails: customerDetailsPromise,
   });
 }
 
@@ -62,17 +50,17 @@ export default function CustomerRoute() {
       <div className="h-4" />
       <Suspense fallback={<InvoiceDetailsFallback />}>
         <Await
-          resolve={data.invoiceDetails}
+          resolve={data.customerDetails}
           errorElement={
             <div className="relative h-full">
               <ErrorFallback />
             </div>
           }
         >
-          {(invoiceDetails) => (
+          {(customerDetails) => (
             <table className="w-full">
               <tbody>
-                {invoiceDetails.map((details) => (
+                {customerDetails?.invoiceDetails.map((details) => (
                   <tr key={details.id} className={lineItemClassName}>
                     <td>
                       <Link

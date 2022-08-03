@@ -1,45 +1,35 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { ErrorFallback } from "~/components";
-import { getCustomerDetails } from "~/models/customer.server";
+import { getCustomerDetails, getCustomerInfo } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
-
-async function getCustomerInfo(customerId: string) {
-  const customer = await getCustomerDetails(customerId);
-  if (!customer) return null;
-  return { name: customer.name, email: customer.email };
-}
-
-async function getCustomerInvoiceDetails(customerId: string) {
-  const customerDetails = await getCustomerDetails(customerId);
-  await new Promise((resolve) =>
-    setTimeout(resolve, Math.random() * 3000 + 1500),
-  );
-  return customerDetails?.invoiceDetails ?? [];
-}
 
 export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
-  // The invoiceDetails are slow, so let's defer that.
+  invariant(
+    typeof customerId === "string",
+    "params.customerId is not available",
+  );
+  // The customerDetails are slow, so let's defer that.
   // 🐨 Change this from a Promise.all to two separate calls
-  // 🐨 Await the customer info, and not the invoice details (so the value of invoiceDetails will be a promise).
-  const [customerInfo, invoiceDetails] = await Promise.all([
+  // 🐨 Await the customer info, and not the customer details (so the value of customerDetails will be a promise).
+  const [customerInfo, customerDetails] = await Promise.all([
     getCustomerInfo(customerId),
-    getCustomerInvoiceDetails(customerId),
+    getCustomerDetails(customerId),
   ]);
-  if (!customerInfo) {
+  // 🐨 we no longer can determine at this stage whether or not there are
+  // `customerDetails`, so remove that from this if statement
+  if (!customerDetails || !customerInfo) {
     throw new Response("not found", { status: 404 });
   }
-  // 🐨 change this from json to deferred (from @remix-run/node)
+  // 🐨 change this from "json" to "defer" (from @remix-run/node)
   return json({
     customerInfo,
-    invoiceDetails,
+    customerDetails, // this should be assigned to a promise
   });
 }
 
@@ -60,13 +50,14 @@ export default function CustomerRoute() {
       <div className="text-m-h3 font-bold leading-8">Invoices</div>
       <div className="h-4" />
       {/*
-        🐨 Wrap this in a <Deferred /> component with:
-        - value as data.invoiceDetails
-        - fallback as <InvoiceDetailsFallback /> (imported from "~/components")
+        🐨 Wrap this in <Suspense><Await /></Suspense> components with:
+        - Suspense "fallback" prop should be <InvoiceDetailsFallback /> (imported from "~/components")
+        - Await "resolve" prop as data.invoiceDetails
+        - Await "errorElement" prop can be the ErrorFallback component (imported from "~/components")
       */}
       <table className="w-full">
         <tbody>
-          {data.invoiceDetails.map((details) => (
+          {data.customerDetails.invoiceDetails.map((details) => (
             <tr key={details.id} className={lineItemClassName}>
               <td>
                 <Link

@@ -26,7 +26,7 @@ export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { invoiceId } = params;
   if (typeof invoiceId !== "string") {
-    throw new Error("This should be unpossible.");
+    throw new Error("This should be impossible.");
   }
   const invoiceDetails = await getInvoiceDetails(invoiceId);
   if (!invoiceDetails) {
@@ -72,7 +72,7 @@ export async function action({ request, params }: ActionArgs) {
   await requireUser(request);
   const { invoiceId } = params;
   if (typeof invoiceId !== "string") {
-    throw new Error("This should be unpossible.");
+    throw new Error("This should be impossible.");
   }
   const formData = await request.formData();
   const intent = formData.get("intent");

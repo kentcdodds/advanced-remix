@@ -13,4 +13,4 @@
 - Customer nav
   - 7. Pending UI with `useTransition()`
   - 8. Skeletons with `useTransition()`
-  - 9. Streaming with `deferred`
+  - 9. Streaming with `defer`

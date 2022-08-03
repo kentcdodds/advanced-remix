@@ -55,6 +55,9 @@
     },
     {
       "path": "final/09-defer"
+    },
+    {
+      "path": "example/client-side-fetching"
     }
   ]
 }

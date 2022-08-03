@@ -9,9 +9,7 @@ import { TrashIcon } from "~/components";
 export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { depositId } = params;
-  if (typeof depositId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
+  invariant(typeof depositId === "string", "params.depositId is not available");
   const depositDetails = await getDepositDetails(depositId);
   if (!depositDetails) {
     throw new Response("not found", { status: 404 });
@@ -24,9 +22,7 @@ export async function loader({ request, params }: LoaderArgs) {
 
 export async function action({ request, params }: ActionArgs) {
   const { depositId } = params;
-  if (typeof depositId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
+  invariant(typeof depositId === "string", "params.depositId is not available");
   const formData = await request.formData();
   const intent = formData.get("intent");
   invariant(typeof intent === "string", "intent must be a string");

@@ -33,7 +33,17 @@ export async function getCustomerListItems() {
   });
 }
 
+export async function getCustomerInfo(customerId: string) {
+  return prisma.customer.findUnique({
+    where: { id: customerId },
+    select: { name: true, email: true },
+  });
+}
+
 export async function getCustomerDetails(customerId: string) {
+  await new Promise((resolve) =>
+    setTimeout(resolve, Math.random() * 3000 + 1500),
+  );
   const customer = await prisma.customer.findUnique({
     where: { id: customerId },
     select: {
