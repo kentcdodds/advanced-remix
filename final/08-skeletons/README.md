@@ -16,6 +16,13 @@ determine whether you're in a loading state and instead of showing the
 `<Outlet />` you show the `<Skeleton />` component. Doing this means that the
 user is no longer looking at the old data, but instead at the skeleton UI.
 
+Another thing you'll need to know is how to pass information from one location
+to another. The browser's `history` API supports `state` which can do this (📜
+learn more about
+[`history.state`](https://developer.mozilla.org/en-US/docs/Web/API/History/state)).
+You can do this with the `Link` (and `NavLink`) component via the `state` prop
+and access that value via `transition.location.state`.
+
 ## 💪 Exercise
 
 When we're on the customer page navigating between customers, we want to show a
