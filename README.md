@@ -1,5 +1,5 @@
 <div>
-  <h1 align="center"><a href="https://kentcdodds.com/workshops/advanced-remix">🐨 Advanced Remix Workshop</a></h1>
+  <h1 align="center"><a href="https://kentcdodds.com/workshops/advanced-remix">💿 Advanced Remix Workshop</a></h1>
   <p>
     Remix enables you to build fantastic user experiences for the web and feel
     happy with the code that got you there. In this workshop, we'll look at some
@@ -47,19 +47,15 @@ variable and how to fix it here for [windows][win-path] or
 Follow these steps to get this set up:
 
 ```sh
-git clone https://github.com/kentcdodds/advanced-remix.git
-cd advanced-remix
+git clone https://github.com/FrontendMasters/advanced-remix.git
+cd remix-fundamentals
 npm run setup
 ```
-
-This will take some time. This repository has many projects in it that each need
-to have their own database setup. We also run type checking and the build to
-make sure things are ready to rock and roll 🤘
 
 If you experience errors here, please open [an issue][issue] with as many
 details as you can offer.
 
-### 💪 Exercises
+### Exercises
 
 You'll find all the exercises in the `exercises` directory. The finished version
 of each exercise is in the `final` directory. Each directory is a completely
@@ -79,15 +75,24 @@ the `dev.js` script in the root of this repository:
 # to run the first exercise app:
 node dev exercise/01
 
+# This runs the first exercise too:
+node dev 1
+
 # or to run the final version of the 2nd exercise
 node dev final/02
+# this runs the 1st extra credit of the final version of the 2nd exercise
+node dev final2.1
+
+# this will just ask you which one you want to run
+node dev
 ```
 
 Each will run on a unique port so you can run multiple apps at once.
 
-Alternatively, rather than opening this whole repo in an editor window, you open
-each exercise folder in an individual editor window (this will make things like
-⌘+P more useful).
+Unfortunately, due to the nature of this workshop, ⌘+P isn't very useful
+(because there are a LOT of duplicate files). If you'd prefer, you can open each
+exercise in its own editor. Or just make sure to prefix your searches with
+"exercise/03" (for example) so you're searching in the right app.
 
 ### Instructions
 
@@ -100,19 +105,33 @@ any of the apps. For example:
 ```sh
 # to be shown the differences between the first exercise and the final version:
 node diff exercise/01 final/01
+
+# We've got some sensible defaults in place so you can get the same diff as above with:
+node diff 1
+
+# And for comparing yourself to extra credits, you can run:
+node diff exercise/02 final/02.2
+
+# this will just ask you which ones you want to diff
+node diff
 ```
 
 This can be handy for you to run when you think you're done but things aren't
 quite working as you expect.
 
-Sometimes there are changes that happen outside of the exercise because they're
-not the focus of the workshop but they can be handy to know about, so the diff
-command can help with that:
+Sometimes there are changes that happen outside of the tutorial because they're
+unrelated to Remix but they can be handy to know about, so the diff command can
+help with that:
 
 ```sh
 # To be shown the changes that happened to prepare for the exercise:
 node diff final/04 exercise/05
 ```
+
+NOTE: Unfortunately, there's no way to exclude some files from the diff we're
+doing, so we limit the diff to only the `app` directory (where almost all of
+your code changes happen). You'll need to ignore any changes to
+`styles/tailwind.css` however. That's a generated file. Sorry about that.
 
 ## Workshop Feedback
 
@@ -126,13 +145,13 @@ Thank you! https://kcd.im/remix-advanced-ws-feedback
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[build-badge]: https://img.shields.io/github/workflow/status/kentcdodds/advanced-remix/%E2%9C%85%20Validate/main?logo=github&style=flat-square
-[build]: https://github.com/kentcdodds/advanced-remix/actions?query=workflow%3Avalidate
+[build-badge]: https://img.shields.io/github/workflow/status/FrontendMasters/advanced-remix/%E2%9C%85%20Validate/main?logo=github&style=flat-square
+[build]: https://github.com/FrontendMasters/advanced-remix/actions?query=workflow%3Avalidate
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/kentcdodds/advanced-remix/blob/main/LICENSE
+[license]: https://github.com/FrontendMasters/advanced-remix/blob/main/LICENSE
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [coc]: https://kentcdodds.com/conduct
 [win-path]: https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 [mac-path]: http://stackoverflow.com/a/24322978/971592
-[issue]: https://github.com/kentcdodds/advanced-remix/issues/new
+[issue]: https://github.com/FrontendMasters/advanced-remix/issues/new
 <!-- prettier-ignore-end -->
