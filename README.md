@@ -48,7 +48,7 @@ Follow these steps to get this set up:
 
 ```sh
 git clone https://github.com/FrontendMasters/advanced-remix.git
-cd remix-fundamentals
+cd advanced-remix
 npm run setup
 ```
 
