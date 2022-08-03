@@ -193,7 +193,7 @@ function Deposits() {
 
   useEffect(() => {
     if (!formRef.current) return;
-    if (newDepositFetcher.type !== "done") return;
+    if (newDepositFetcher.state !== "idle") return;
 
     // 🐨 If there's an error on the amount, focus the amount element
 
@@ -203,7 +203,7 @@ function Deposits() {
     // 💯 In what situation would we want to *not* change focus and *not* reset the form at this point?
 
     formRef.current.reset();
-  }, [newDepositFetcher.type]);
+  }, [newDepositFetcher.state]);
 
   return (
     <div>

@@ -159,7 +159,7 @@ function Deposits() {
   // 💰 you can convert the depositDate to a Date object via parseDate and then use toLocaleDateString()
 
   // 🐨 add a useEffect that resets the form when the submission is finished
-  // 💰 (newDepositFetcher.type === "done")
+  // 💰 (newDepositFetcher.state === "idle")
 
   return (
     <div>

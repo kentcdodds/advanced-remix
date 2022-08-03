@@ -198,7 +198,7 @@ function Deposits() {
 
   useEffect(() => {
     if (!formRef.current) return;
-    if (newDepositFetcher.type !== "done") return;
+    if (newDepositFetcher.state !== "idle") return;
 
     const formEl = formRef.current;
 
@@ -210,7 +210,7 @@ function Deposits() {
       formEl.reset();
       formEl.elements.amount?.focus();
     }
-  }, [newDepositFetcher.type, errors]);
+  }, [newDepositFetcher.state, errors]);
 
   return (
     <div>

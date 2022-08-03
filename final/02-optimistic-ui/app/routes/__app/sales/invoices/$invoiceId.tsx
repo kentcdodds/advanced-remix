@@ -178,10 +178,10 @@ function Deposits() {
 
   useEffect(() => {
     if (!formRef.current) return;
-    if (newDepositFetcher.type !== "done") return;
+    if (newDepositFetcher.state !== "idle") return;
 
     formRef.current.reset();
-  }, [newDepositFetcher.type]);
+  }, [newDepositFetcher.state]);
 
   return (
     <div>
