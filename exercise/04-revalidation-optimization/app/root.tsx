@@ -10,6 +10,7 @@ import {
   useFetcher,
   useLoaderData,
   useLocation,
+  useSubmit,
 } from "@remix-run/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "@reach/dialog";
@@ -59,18 +60,18 @@ export default function App() {
 function LogoutTimer() {
   const [status, setStatus] = useState<"idle" | "show-modal">("idle");
   const location = useLocation();
-  const fetcher = useFetcher();
+  const submit = useSubmit();
   const logoutTime = 1000 * 60 * 60 * 24;
   const modalTime = logoutTime - 1000 * 60 * 2;
   const modalTimer = useRef<ReturnType<typeof setTimeout>>();
   const logoutTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const logout = useCallback(() => {
-    fetcher.submit(
+    submit(
       { redirectTo: location.pathname },
       { method: "post", action: "/logout" },
     );
-  }, [fetcher, location.pathname]);
+  }, [submit, location.pathname]);
 
   const cleanupTimers = useCallback(() => {
     clearTimeout(modalTimer.current);

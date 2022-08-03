@@ -1,6 +1,7 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { ShouldReloadFunction } from "@remix-run/react";
+import { useSubmit } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -8,7 +9,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useFetcher,
   useLoaderData,
   useLocation,
 } from "@remix-run/react";
@@ -60,18 +60,18 @@ export default function App() {
 function LogoutTimer() {
   const [status, setStatus] = useState<"idle" | "show-modal">("idle");
   const location = useLocation();
-  const fetcher = useFetcher();
+  const submit = useSubmit();
   const logoutTime = 1000 * 60 * 60 * 24;
   const modalTime = logoutTime - 1000 * 60 * 2;
   const modalTimer = useRef<ReturnType<typeof setTimeout>>();
   const logoutTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const logout = useCallback(() => {
-    fetcher.submit(
+    submit(
       { redirectTo: location.pathname },
       { method: "post", action: "/logout" },
     );
-  }, [fetcher, location.pathname]);
+  }, [submit, location.pathname]);
 
   const cleanupTimers = useCallback(() => {
     clearTimeout(modalTimer.current);

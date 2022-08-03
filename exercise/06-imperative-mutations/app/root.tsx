@@ -1,7 +1,6 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-// 🐨 you'll want this
-// import type { ShouldReloadFunction } from "@remix-run/react";
+import type { ShouldReloadFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -60,22 +59,21 @@ export default function App() {
 function LogoutTimer() {
   const [status, setStatus] = useState<"idle" | "show-modal">("idle");
   const location = useLocation();
-  // 🐨 add the useFetcher hook here so you can trigger a logout
+  // 🐨 add the useSubmit hook here so you can trigger a logout
 
-  const logoutTime = 1000 * 60 * 60 * 24;
-  const modalTime = logoutTime - 1000 * 60 * 2;
-  // 💰 you can swap the logoutTime and modalTime with these to test this more easily:
-  // const logoutTime = 5000;
-  // const modalTime = 2000;
+  // I've shortened the logoutTime and modalTime with these to test this more easily:
+  const logoutTime = 5000;
+  const modalTime = 2000;
+  // const logoutTime = 1000 * 60 * 60 * 24;
+  // const modalTime = logoutTime - 1000 * 60 * 2;
   const modalTimer = useRef<ReturnType<typeof setTimeout>>();
   const logoutTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const logout = useCallback(() => {
-    // 🐨 log the user out by posting the /logout
-    // 🐨 make sure you provide the `redirectTo` value as part of the body of
-    // the request as there's currently some odd behavior if you don't. If
-    // you're reading this it's because I still haven't figured out what's
-    // going on and you can give me a hard time about it...
+    // 🐨 log the user out by submitting to /logout
+    // 🐨 provide the `redirectTo` value as part of the body of
+    // the request so after the user logs in again they will be
+    // right back where they left off
   }, []);
 
   const cleanupTimers = useCallback(() => {
@@ -125,7 +123,5 @@ function LogoutTimer() {
   );
 }
 
-// There's currently a bug in this API when used in combination with
-// fetcher.submit, so we'll disable this optimization for this exercise
-// export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
-//   submission?.action === "/logout" || submission?.action === "/login";
+export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
+  submission?.action === "/logout" || submission?.action === "/login";
