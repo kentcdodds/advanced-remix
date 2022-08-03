@@ -48,6 +48,7 @@
   },
   "workspaces": [
     "exercise/*",
-    "final/*"
+    "final/*",
+    "example/*"
   ]
 }
