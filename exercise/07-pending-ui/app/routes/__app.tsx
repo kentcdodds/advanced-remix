@@ -28,7 +28,7 @@ export default function AppRoute() {
             <NavItem to="expenses">Expenses</NavItem>
             <NavItem to="reports">Reports</NavItem>
             <a
-              href="https://github.com/FrontendMasters/advanced-remix"
+              href="https://github.com/kentcdodds/advanced-remix"
               className="my-1 flex gap-1 py-1 px-2 pr-16 text-[length:14px]"
             >
               GitHub <UpRightArrowIcon />

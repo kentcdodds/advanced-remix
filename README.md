@@ -47,7 +47,7 @@ variable and how to fix it here for [windows][win-path] or
 Follow these steps to get this set up:
 
 ```sh
-git clone https://github.com/FrontendMasters/advanced-remix.git
+git clone https://github.com/kentcdodds/advanced-remix.git
 cd advanced-remix
 npm run setup
 ```
@@ -145,13 +145,13 @@ Thank you! https://kcd.im/remix-advanced-ws-feedback
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[build-badge]: https://img.shields.io/github/workflow/status/FrontendMasters/advanced-remix/%E2%9C%85%20Validate/main?logo=github&style=flat-square
-[build]: https://github.com/FrontendMasters/advanced-remix/actions?query=workflow%3Avalidate
+[build-badge]: https://img.shields.io/github/workflow/status/kentcdodds/advanced-remix/%E2%9C%85%20Validate/main?logo=github&style=flat-square
+[build]: https://github.com/kentcdodds/advanced-remix/actions?query=workflow%3Avalidate
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/FrontendMasters/advanced-remix/blob/main/LICENSE
+[license]: https://github.com/kentcdodds/advanced-remix/blob/main/LICENSE
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [coc]: https://kentcdodds.com/conduct
 [win-path]: https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 [mac-path]: http://stackoverflow.com/a/24322978/971592
-[issue]: https://github.com/FrontendMasters/advanced-remix/issues/new
+[issue]: https://github.com/kentcdodds/advanced-remix/issues/new
 <!-- prettier-ignore-end -->
